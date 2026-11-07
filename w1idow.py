@@ -2,8 +2,10 @@
 import os
 import json
 import requests
-from Core import nickF, decor
+from Core import decor
 from colorama import Fore, Style, init
+from Core.osint.nickF import NickF
+from Core.osint.ipF import IpF
 
 init(autoreset=True)
 
@@ -26,34 +28,14 @@ def main():
 
         if ans == '1':
             os.system('clear')
-            nick = input(f"{decor.lye}Enter Nickname >> ")
-            print(f"{decor.lye}Messagers and Social Networks:")
-            nickF.osint(nickF.snm, nick)
-            print(f"{decor.lye}Videohostings:")
-            nickF.osint(nickF.vh, nick)
-            print(f"{decor.lye}Games:")
-            nickF.osint(nickF.games, nick)
-            print(f"{decor.lye}Forums:")
-            nickF.osint(nickF.forums, nick)
-            print(f"{decor.lye}Wallets:")
-            nickF.osint(nickF.money, nick)
-            print(f"{decor.lye}Other:")
-            nickF.osint(nickF.other, nick)
+            nick: str = input(f"{decor.lye}Enter Nickname >> ")
+            NickF(nick=nick, timeout=5).run()
             input(f"{decor.lye}Press Enter to continue...")
 
         elif ans == '2':
             os.system('clear')
-            ip = input(f"{decor.lye}Enter IP >> ")
-            url = f"https://ipinfo.io/{ip}/json"
-            try:
-                response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=5)
-                data = response.json()
-                print(f"{Fore.LIGHTGREEN_EX}City: {data.get('city', 'N/A')}")
-                print(f"Region: {data.get('region', 'N/A')}")
-                print(f"Location: {data.get('loc', 'N/A')}")
-                print(f"Operator: {data.get('org', 'N/A')}")
-            except Exception as e:
-                print(f"{decor.red}Error: {e}")
+            ip: str = input(f"{decor.lye}Enter IP >> ")
+            IpF(ip=ip).run()
             input(f"{decor.lye}Press Enter to continue...")
 
         elif ans == '3':
